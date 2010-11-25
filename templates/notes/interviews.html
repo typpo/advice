@@ -9,8 +9,18 @@
         {%regroup company.list by position as position_list%}
         {%for position in position_list%}
             <h3>{{position.grouper}}</h3>
+            <ul>
+            <!-- TODO include all interview information -->
+            <!-- Group by date, eg. month ago, week ago, days ago -->
             {%for interview in position.list%}
-                {{interview.description}}
+                <li>
+                <p>{{interview.date}}<br>{{interview.description}}</p>
+                {%for question in interview.question_set.all%}
+                    <p>Q: {{question.question}}</p>
+                    <p>A: {{question.answer}}</p>
+                {%endfor%}
+                </li>
             {%endfor%}
+            </ul>
         {%endfor%}
 {%endfor%}
