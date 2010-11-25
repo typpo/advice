@@ -20,3 +20,4 @@ class CompanyAdmin(admin.ModelAdmin):
 admin.site.register(Interview, InterviewAdmin)
 admin.site.register(Company)
 admin.site.register(Position)
+admin.site.register(Profile)
