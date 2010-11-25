@@ -6,6 +6,9 @@ class Profile(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name_plural = 'Companies'
+
 class Position(models.Model):
     position = models.CharField(max_length=100)
 
@@ -18,8 +21,5 @@ class Interview(models.Model):
 
 class Question(models.Model):
     interview = models.ForeignKey(Interview)
-    text = models.CharField(max_length=2000)
-
-class Answer(models.Model):
-    question = models.ForeignKey(Question)
-    text = models.CharField(max_length=2000)
+    question = models.CharField(max_length=2000)
+    answer = models.CharField(max_length=2000)
