@@ -1,3 +1,6 @@
+{%ifequal interiews.count 0%}
+    No such interviews exist.
+{%endifequal%}
 
 {%regroup interviews by company as company_list%}
 
