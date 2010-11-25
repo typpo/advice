@@ -3,14 +3,14 @@ from django.db import models
 class Profile(models.Model):
     email = models.EmailField(max_length=100)
 
+class Position(models.Model):
+    title = models.CharField(max_length=100)
+
 class Company(models.Model):
     name = models.CharField(max_length=100)
-
+    positions = models.ManyToManyField(Position)
     class Meta:
         verbose_name_plural = 'Companies'
-
-class Position(models.Model):
-    position = models.CharField(max_length=100)
 
 class Interview(models.Model):
     profile = models.ForeignKey(Profile)

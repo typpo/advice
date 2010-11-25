@@ -34,11 +34,9 @@ def company_by_name(request, company_name):
 # Lists by position, company, or both
 def interviews(request, company, position):
     interviews = Interview.objects.filter(company__name=company, \
-        position__position=position)
+        position__title=position)
     return render_to_response('notes/interviews.html'. \
         {
-            'company': company,
-            'position': position,
             'interviews': interviews,
         })
 

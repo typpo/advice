@@ -1,0 +1,5 @@
+<ul>
+{%for company in companies%}
+    <li><a href="/c/{{company.id}}">{{company.name}}</a> - ({{company.positions.all.count}} positions, {{company.interview_set.all.count}} interviews)</li>
+{%endfor%}
+</ul>

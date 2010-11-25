@@ -1,0 +1,13 @@
+
+{%regroup interviews by company as company_list%}
+
+{%for company in company_list%}
+    <h2>{{company.grouper}}</h2>
+        {%regroup company.list by position as position_list%}
+        {%for position in position_list%}
+            <h3>{{position.grouper}}</h3>
+            {%for interview in position.list%}
+                {{interview.description}}
+            {%endfor%}
+        {%endfor%}
+{%endfor%}

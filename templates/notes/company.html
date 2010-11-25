@@ -1,0 +1,19 @@
+<h1>{{company.name}}</h1>
+
+<p>
+<h2>Positions</h2>
+<ul>
+{%for position in company.positions.all%}
+    <li><a href="/p/{{position.id}}">{{position.title}}</a> - ({{position.interview_set.all.count}} interviews)
+{%endfor%}
+</ul>
+</p>
+
+<p>
+<h2>Interviews</h2>
+<ul>
+{%for interview in company.interview_set%}
+    <li>{{interview.description|truncatewords:10}}... - ({{interview.position.title}}) - {{interview.question_set.all.count}} questions</li>
+{%endfor%}
+</ul>
+</p>
