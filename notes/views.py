@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
+from notes.forms import InterviewForm
 from notes.models import Profile
 from notes.models import Company
 from notes.models import Position
@@ -9,7 +10,7 @@ from notes.models import Interview
 # Lists top N companies and positions, by things like quantity and 
 # recent activity
 def index(request):
-    
+    pass    
 
 # Lists by company and top N positions
 def company_index(request):
@@ -74,5 +75,22 @@ def get_company_id(company_name):
     return company.id
 
 # Submit interview
-def submit(request):
-    pass
+def add(request):
+    failed = False
+    addednew = False
+
+    if request.POST:
+        f = InterviewForm(request.POST)
+        if f.is_valid():
+            new_interview = f.save()
+            new_interview.save()
+            addednew = True
+        else:
+            failed = True
+
+    return render_to_response('notes/add.html', \
+        {
+            'form': InterviewForm(),
+            'addednew': addednew,
+            'failed': failed,
+        })

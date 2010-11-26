@@ -1,0 +1,9 @@
+{%if addednew%}
+    <strong>Your submission was received and will be up shortly.  Thanks!</strong>
+{%else%}
+    {%if failed%}
+        <strong>Something was wrong with your submission, try again.</strong>
+    {%endif%}
+{%endif%}
+
+{{form.as_p}}
