@@ -4,14 +4,15 @@
 
 {%regroup interviews by company as company_list%}
 
+<!-- TODO include all interview information -->
+<!-- Group by date, eg. month ago, week ago, days ago -->
+
 {%for company in company_list%}
     <h2>{{company.grouper}}</h2>
         {%regroup company.list by position as position_list%}
         {%for position in position_list%}
             <h3>{{position.grouper}}</h3>
             <ul>
-            <!-- TODO include all interview information -->
-            <!-- Group by date, eg. month ago, week ago, days ago -->
             {%for interview in position.list%}
                 <li>
                 <p>{{interview.date}}<br>{{interview.description}}</p>

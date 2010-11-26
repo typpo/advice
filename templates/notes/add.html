@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+{%block title%}submission{%endblock%}
+{%block head%}{{form.media}}{%endblock%}
+{%block content%}
 {%if addednew%}
     <strong>Your submission was received and will be up shortly.  Thanks!</strong>
 {%else%}
@@ -6,4 +10,7 @@
     {%endif%}
 {%endif%}
 
+<form action="/notes/add/" method="POST">
 {{form.as_p}}
+<input type="submit" value="Submit"/>
+{%endblock content%}
