@@ -1,6 +1,90 @@
 {% extends "base.html" %}
 {%block title%}submission{%endblock%}
-{%block head%}{{form.media}}{%endblock%}
+{%block head%}
+
+{{form.media}}
+
+<link rel="stylesheet" href="/static/css/uniform.default.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="/static/css/jquery-ui-1.8.6.custom.css" type="text/css" media="screen" charset="utf-8" />
+
+<script src="/static/js/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery-ui-1.8.6.custom.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" charset="utf-8">
+    $(function() {
+        $('input, select, button').uniform();
+        $('#id_date').datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+    function strip_html(html) {
+        var tmp = document.createElement("DIV");
+        tmp.innerHTML = html;
+        return tmp.textContent||tmp.innerText;
+    }
+
+    var c = 0;
+    var currently_editing = 0;
+    $(document).ready(function() {
+        $('#add_field').click(function() {
+
+            /* Add question */
+            var q = tinyMCE.get('id_question').getContent();
+            var a = tinyMCE.get('id_answer').getContent();
+
+            // Create new hidden fields.
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'question_' + c,
+                name: 'question_' + c,
+                value: q,
+            }).appendTo('#form_add_div');
+
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'answer_' + c,
+                name: 'answer_' + c,
+                value: a,
+            }).appendTo('#form_add_div');
+
+            // Create editable previews
+            var splits = strip_html(q).split(' ')
+            var preview = splits.slice(0, Math.min(10, splits.length)).join(' ')
+
+            alert(preview);
+
+            var link = $('<div>');
+
+            link.appendTo('#form_add_div');
+            
+            // Clear
+            tinyMCE.get('id_question').setContent('');
+            tinyMCE.get('id_answer').setContent('');
+            tinymce.execCommand('mceFocus',false,'id_question');
+
+            c++;
+/*
+            var q = $('#submitform p:last').prev().html();
+            var a = $('#submitform p:last').html();
+
+            $('#form_add_div').append(q);
+            $('#form_add_div').append(a);
+
+            q.children('label').attr('for', 'id_question_'+c);
+            q.children('textarea').attr('id', 'id_question_'+c);
+            a.children('label').attr('for', 'id_question_'+c);
+            a.children('textarea').attr('id', 'id_answer_'+c);
+*/
+            //q.insertAfter($('#submitform p:last'));
+            //a.insertAfter(q);
+        });
+    });
+</script>
+
+{%endblock%}
 {%block content%}
 {%if addednew%}
     <strong>Your submission was received and will be up shortly.  Thanks!</strong>
@@ -10,7 +94,13 @@
     {%endif%}
 {%endif%}
 
-<form action="/notes/add/" method="POST">
+<form id="submitform" action="/notes/add/" method="POST">
 {{form.as_p}}
-<input type="submit" value="Submit"/>
+
+<div id="form_add_div">
+</div>
+
+<div id="add_field"><strong>[+] Add another question</strong></div>
+<br>
+<input id="submit" type="submit" value="Submit"/>
 {%endblock content%}
