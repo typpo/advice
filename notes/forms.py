@@ -5,16 +5,18 @@ from tinymce.widgets import TinyMCE
 from notes.models import Interview
 
 class InterviewForm(ModelForm):
-    company = forms.CharField(max_length=50)
-    position = forms.CharField(max_length=50)
-    date = forms.DateField()
+    company = forms.CharField(max_length=50, \
+        widget=forms.TextInput(attrs={'size':50}))
+    position = forms.CharField(max_length=50, \
+        widget=forms.TextInput(attrs={'size':50}))
+    date = forms.DateField(label='Date of interview')
     description = forms.CharField(max_length=2000, \
-        widget=TinyMCE(attrs={'rows':15,'cols':80}))
+        widget=forms.widgets.Textarea(attrs={'rows':15,'cols':100}))
 
     question = forms.CharField(max_length=2000, \
-        widget=TinyMCE(attrs={'rows':10,'cols':80}))
+        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':100}))
     answer = forms.CharField(max_length=2000, \
-        widget=TinyMCE(attrs={'rows':10,'cols':80}))
+        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':100}))
 
     class Meta:
         model = FlatPage
