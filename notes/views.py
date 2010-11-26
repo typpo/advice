@@ -54,7 +54,7 @@ def interviews(request):
     if len(kwargs) < 1:
         raise Http404
 
-    interviews = Interview.objects.filter(**kwargs)
+    interviews = Interview.objects.filter(**kwargs).order_by('-position', 'date')
     if len(interviews) < 1:
         raise Http404
 
