@@ -126,17 +126,13 @@ def add(request):
             input_date = d.get('date', None)
             input_description = d.get('description', None)
             input_question = d.get('question', None)
-            input_answer = d.get('answer', None)
+            input_answer = d.get('answer', '')
 
-            # find profile
-            p = Profile()
-            p.user = AnonymousUser()
-            p.save()
-
+            # TODO add profile?
 
             # find position
             try:
-                position = Company.objects.get(title=input_position)
+                position = Position.objects.get(title=input_position)
             except ObjectDoesNotExist:
                 position = Position()
                 position.title = input_position
@@ -148,31 +144,31 @@ def add(request):
             except ObjectDoesNotExist:
                 company = Company()
                 company.name = input_company
+                company.save()
                 company.positions.add(position)
                 company.save()
                 
             i = Interview()
             i.company = company
             i.position = position
-            i.profile = p
             i.description = input_description
             i.date = input_date
             i.save()
 
             # questions
             def saveQandA(interview, question, answer):
-                question = Question()
-                question.interview = interview;
-                question.question = question
-                question.answer = answer
-                question.save()
+                q= Question()
+                q.interview = interview;
+                q.question = question
+                q.answer = answer
+                q.save()
             
-            saveQandA(i, input_question, input_answer)
             if input_question:
+                saveQandA(i, input_question, input_answer)
                 c = 1
                 while 1:
-                    q = 'id_question'+c
-                    a = 'id_answer'+c
+                    q = 'id_question'+str(c)
+                    a = 'id_answer'+str(c)
                     if q in d:
                         saveQAndA(i, d[q], d.get(a, ''))
                         c += 1

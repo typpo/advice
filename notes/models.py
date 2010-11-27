@@ -23,10 +23,8 @@ class Company(models.Model):
         verbose_name_plural = 'Companies'
 
 class Interview(models.Model):
-    profile = models.ForeignKey(Profile)
     company = models.ForeignKey(Company)
     position = models.ForeignKey(Position)
-    profile = models.ForeignKey(Profile)
     description = models.CharField(max_length=2000)
     date = models.DateField()
     updated = models.DateTimeField(auto_now=True, auto_now_add=True)

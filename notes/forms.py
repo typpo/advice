@@ -18,10 +18,7 @@ class InterviewForm(ModelForm):
     answer = forms.CharField(max_length=2000, \
         widget=forms.widgets.Textarea(attrs={'rows':10,'cols':80}))
 
-    def clean(self):
-        return self.cleaned_data
-
     class Meta:
         model = FlatPage
         exclude = ('profile',)
-        fields = ('company', 'position', 'date', 'description')
+        fields = ('company', 'position', 'date', 'description', 'question', 'answer')
