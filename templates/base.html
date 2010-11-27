@@ -2,15 +2,27 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <!--<link rel="stylesheet" href="style.css" />-->
+    <link rel="stylesheet" href="/static/css/notes.css" type="text/css" media="screen" charset="utf-8" />
     <title>advice & notes - {% block title %}{% endblock %}</title>
     <script type="text/javascript" src="/static/js/jquery-1.4.4.min.js"></script>
     {%block head%}{%endblock%}
 </head>
 
 <body>
+    <div id="header" class="header">
+        <a href="/notes/">Home</a> - <a href="/notes/c/">Companies</a> - <a href="/notes/p/">Positions</a> - <a href="/notes/i/">Search</a>
+    </div>
+    <div class="mainoutline">
+    <div id="description">
+        <h1>{% block header %}Nothing here.{% endblock %}</h1>
+    </div>
     <div id="content">
         {% block content %}Nothing here.{% endblock %}
+    </div>
+
+    <div id="footer">
+
+    </div>
     </div>
 </body>
 </html>

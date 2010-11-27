@@ -1,3 +1,35 @@
+a:link {
+    font-color: #ffff00;
+}
+
+a:visited {
+    font-color: #ffff00;
+}
+
+a:hover {
+    font-color: #ff0022;
+}
+
+.header {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #ff0022;
+    background-color: #eee;
+    font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+    font-size: 14px;
+    padding: 10px;
+    padding-left: 40px;
+}
+
+.mainoutline {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ddd;
+    width: 90%;
+    padding: 10px;
+    margin: 20px;
+}
+
 .indent{
     padding-left: 30px;
 }

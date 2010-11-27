@@ -6,6 +6,7 @@ class Profile(models.Model):
 
 class Position(models.Model):
     title = models.CharField(max_length=50, unique=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=True)
 
     def __unicode__(self):
         return self.title
@@ -13,6 +14,7 @@ class Position(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=50, unique=True)
     positions = models.ManyToManyField(Position)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=True)
 
     def __unicode__(self):
         return self.name
@@ -27,6 +29,7 @@ class Interview(models.Model):
     profile = models.ForeignKey(Profile)
     description = models.CharField(max_length=2000)
     date = models.DateField()
+    updated = models.DateTimeField(auto_now=True, auto_now_add=True)
 
     def __unicode__(self):
         return '%s interview at %s' % (self.position.title, self.company.name)
@@ -35,6 +38,7 @@ class Question(models.Model):
     interview = models.ForeignKey(Interview)
     question = models.CharField(max_length=2000)
     answer = models.CharField(max_length=2000)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=True)
 
     def __unicode__(self):
         return 'Question for %s' % (self.interview)

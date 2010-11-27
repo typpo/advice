@@ -1,5 +1,27 @@
+{% extends "base.html" %}
+{%block title%}positions index{%endblock%}
+{%block header%}Positions{%endblock%}
+{%block content%}
+Order by:
+{%ifnotequal order "title"%}<a href="?order=title">{%endifnotequal%}
+title
+{%ifnotequal order "title"%}</a>{%endifnotequal%}
+-
+{%ifnotequal order "companies"%}<a href="?order=companies">{%endifnotequal%}
+companies
+{%ifnotequal order "companies"%}</a>{%endifnotequal%}
+-
+{%ifnotequal order "interviews"%}<a href="?order=interviews">{%endifnotequal%}
+interviews
+{%ifnotequal order "interviews"%}</a>{%endifnotequal%}
+-
+{%ifnotequal order "recent"%}<a href="?order=recent">{%endifnotequal%}
+recent
+{%ifnotequal order "recent"%}</a>{%endifnotequal%}
+
 <ul>
 {%for position in positions%}
     <li><a href="/p/{{position.id}}">{{position.title}}</a> - ({{position.company_set.all.count}} companies, {{position.interview_set.all.count}} interviews)
 {%endfor%}
 </ul>
+{%endblock content%}

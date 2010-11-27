@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count, Max
 from notes.forms import InterviewForm
 from notes.models import Profile
 from notes.models import Company
@@ -14,17 +15,49 @@ def index(request):
 
 # Lists by company and top N positions
 def company_index(request):
-    companies = Company.objects.all()
+    order = request.GET.get('order', 'name')
+    
+    if order == 'name':
+        companies = Company.objects.all().order_by('name')
+    elif order == 'positions':
+        # Sort by # positions
+        companies = Company.objects.all().annotate( \
+            poscount=Count('positions')).order_by('-poscount')
+    elif order == 'interviews':
+        # Sort by # interviews
+        companies = Company.objects.all().annotate( \
+            icount=Count('interview')).order_by('-icount')
+    else:
+        # order by recent
+        companies = Company.objects.all().order_by('-updated')
+
     return render_to_response('notes/company_index.html', \
         {
+            'order': order,
             'companies': companies,
         })
 
 # Lists by position and top N companies
 def position_index(request):
-    positions = Position.objects.all()
+    order = request.GET.get('order', 'title')
+    
+    if order == 'title':
+        positions = Position.objects.all().order_by('title')
+    elif order == 'companies':
+        # Sort by # companies
+        positions = Position.objects.all().annotate( \
+            ccount=Count('company')).order_by('-ccount')
+    elif order == 'interviews':
+        # Sort by # interviews
+        positions = Position.objects.all().annotate( \
+            icount=Count('interview')).order_by('-icount')
+    else:
+        # order by recent
+        positions = Position.objects.all().order_by('-updated')
+
     return render_to_response('notes/position_index.html', \
         {
+            'order': order,
             'positions': positions,
         })
 
@@ -81,9 +114,28 @@ def add(request):
 
     if request.POST:
         f = InterviewForm(request.POST)
+        # TODO blank question, answer can be valid
+        # blank description can be valid w/ question and answer
         if f.is_valid():
-            new_interview = f.save()
-            new_interview.save()
+            d = f.cleaned_data
+            company = d['id_company']
+            position = d['id_position']
+
+            date = d.get('id_date', None)
+            description = d.get('id_description', None)
+            question = d.get('id_question', None)
+            answer = d.get('id_answer', None)
+
+            if question:
+                qs = [(question, answer)]
+                c = 0
+                while 1:
+                    if ('id_question'+c) in d:
+
+                        c += 1
+                    else:
+                        break
+
             addednew = True
         else:
             failed = True
