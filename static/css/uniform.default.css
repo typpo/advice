@@ -48,13 +48,18 @@ input.text,
 input.email, 
 input.password,
 textarea.uniform {
-  font-size: 12px;
+border:1px solid #999999;
+font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+  font-size: 14px;
+  /*
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+*/
   font-weight: normal;
   padding: 3px;
-  color: #777;
+  color: #000;
   background: url('../images/bg-input-focus.png') repeat-x 0px 0px;
   background: url('../images/bg-input.png') repeat-x 0px 0px;
+  /*
   border-top: solid 1px #aaa;
   border-left: solid 1px #aaa;
   border-bottom: solid 1px #ccc;
@@ -62,6 +67,7 @@ textarea.uniform {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  */
   outline: 0;
 }
 

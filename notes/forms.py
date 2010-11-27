@@ -11,12 +11,12 @@ class InterviewForm(ModelForm):
         widget=forms.TextInput(attrs={'size':50}))
     date = forms.DateField(label='Date of interview')
     description = forms.CharField(max_length=2000, \
-        widget=forms.widgets.Textarea(attrs={'rows':15,'cols':100}))
+        widget=forms.widgets.Textarea(attrs={'rows':15,'cols':80}))
 
     question = forms.CharField(max_length=2000, \
-        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':100}))
+        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':80}))
     answer = forms.CharField(max_length=2000, \
-        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':100}))
+        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':80}))
 
     class Meta:
         model = FlatPage

@@ -1,0 +1,11 @@
+.indent{
+    padding-left: 30px;
+}
+
+.qAndA{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #dddddd;
+    padding: 10px;
+    width: 61%;
+}
