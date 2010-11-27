@@ -1,17 +1,19 @@
 from django.shortcuts import render_to_response
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count, Max
+from django.db.models import Count
+from django.contrib.auth.models import AnonymousUser
 from notes.forms import InterviewForm
 from notes.models import Profile
 from notes.models import Company
 from notes.models import Position
 from notes.models import Interview
+from notes.models import Question
 
 # Lists top N companies and positions, by things like quantity and 
 # recent activity
 def index(request):
-    pass    
+    raise Http404
 
 # Lists by company and top N positions
 def company_index(request):
@@ -118,20 +120,61 @@ def add(request):
         # blank description can be valid w/ question and answer
         if f.is_valid():
             d = f.cleaned_data
-            company = d['id_company']
-            position = d['id_position']
+            input_company = d['company']
+            input_position = d['position']
 
-            date = d.get('id_date', None)
-            description = d.get('id_description', None)
-            question = d.get('id_question', None)
-            answer = d.get('id_answer', None)
+            input_date = d.get('date', None)
+            input_description = d.get('description', None)
+            input_question = d.get('question', None)
+            input_answer = d.get('answer', None)
 
-            if question:
-                qs = [(question, answer)]
-                c = 0
+            # find profile
+            p = Profile()
+            p.user = AnonymousUser()
+            p.save()
+
+
+            # find position
+            try:
+                position = Company.objects.get(title=input_position)
+            except ObjectDoesNotExist:
+                position = Position()
+                position.title = input_position
+                position.save()
+
+            # find company
+            try:
+                company = Company.objects.get(name=input_company)
+            except ObjectDoesNotExist:
+                company = Company()
+                company.name = input_company
+                company.positions.add(position)
+                company.save()
+                
+            i = Interview()
+            i.company = company
+            i.position = position
+            i.profile = p
+            i.description = input_description
+            i.date = input_date
+            i.save()
+
+            # questions
+            def saveQandA(interview, question, answer):
+                question = Question()
+                question.interview = interview;
+                question.question = question
+                question.answer = answer
+                question.save()
+            
+            saveQandA(i, input_question, input_answer)
+            if input_question:
+                c = 1
                 while 1:
-                    if ('id_question'+c) in d:
-
+                    q = 'id_question'+c
+                    a = 'id_answer'+c
+                    if q in d:
+                        saveQAndA(i, d[q], d.get(a, ''))
                         c += 1
                     else:
                         break

@@ -1,13 +1,13 @@
 a:link {
-    font-color: #ffff00;
+    color: #ff0022;
 }
 
 a:visited {
-    font-color: #ffff00;
+    color: #ff0022;
 }
 
 a:hover {
-    font-color: #ff0022;
+    color: #220022;
 }
 
 .header {
