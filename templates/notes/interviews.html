@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+{%block title%}interviews{%endblock%}
+{%block header%}Interviews{%endblock%}
+{%block content%}
+
 {%ifequal interiews.count 0%}
     No such interviews exist.
 {%endifequal%}
@@ -10,18 +15,27 @@
 {%for company in company_list%}
     <h2>{{company.grouper}}</h2>
         {%regroup company.list by position as position_list%}
+        <div class="indent">
         {%for position in position_list%}
-            <h3>{{position.grouper}}</h3>
-            <ul>
+            <h3>{{position.grouper}} position</h3>
             {%for interview in position.list%}
-                <li>
-                <p>{{interview.date}}<br>{{interview.description}}</p>
+                <div class="interview">
+                Date: {{interview.date}}<br>
+                <p>
+                <strong>Description:</strong><br>{{interview.description}}
+                </p>
                 {%for question in interview.question_set.all%}
-                    <p>Q: {{question.question}}</p>
-                    <p>A: {{question.answer}}</p>
+                    <p>
+                    <strong>Question</strong><br>{{question.question}}</p>
+                    <p><strong>Answer</strong><br>{{question.answer}}
+                    </p>
+                {%empty%}
+                    No questions available.
                 {%endfor%}
-                </li>
+                </div>
             {%endfor%}
-            </ul>
         {%endfor%}
+        </div>
 {%endfor%}
+
+{%endblock content%}

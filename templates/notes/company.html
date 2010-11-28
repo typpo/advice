@@ -1,4 +1,7 @@
-<h1>{{company.name}}</h1>
+{% extends "base.html" %}
+{%block title%}{{company.name}}{%endblock%}
+{%block header%}{{company.name}}{%endblock%}
+{%block content%}
 
 <p>
 <h2>Positions</h2>
@@ -18,3 +21,5 @@
 {%endfor%}
 </ul>
 </p>
+
+{%endblock content%}

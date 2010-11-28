@@ -72,10 +72,38 @@ def company(request, company_id):
         })
 
 def company_by_name(request, company_name):
-    id = get_company_id(company_name)
+    try:
+        company = Company.objects.get(name=company_name)
+    except ObjectDoesNotExist:
+        try:
+            company = Company.objects.get(name__contains=company_name)
+        except ObjectDoesNotExist:
+            return -1
+
     if id < 0:
         raise Http404
-    return company(request, id)
+    return company(request, company.id)
+
+# companies by position
+def position(request, position_id):
+    position = Position.objects.get(id=company_id)
+    return render_to_response('notes/position.html', \
+        {
+            'position': position,
+        })
+
+def position_by_title(request, position_title):
+    try:
+        position = Position.objects.get(title=position_title)
+    except ObjectDoesNotExist:
+        try:
+            position = Company.objects.get(name__contains=position_title)
+        except ObjectDoesNotExist:
+            return -1
+
+    if id < 0:
+        raise Http404
+    return position(request, position.id)
 
 # Lists by position, company, or both, by id
 def interviews(request):
@@ -97,17 +125,6 @@ def interviews(request):
         {
             'interviews': interviews,
         })
-
-# Find closest match to company by name
-def get_company_id(company_name):
-    try:
-        company = Company.objects.get(name=company_name)
-    except ObjectDoesNotExist:
-        try:
-            company = Company.objects.get(name__contains=company_name)
-        except ObjectDoesNotExist:
-            return -1
-    return company.id
 
 # Submit interview
 def add(request):

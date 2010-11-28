@@ -2,6 +2,18 @@ a:link {
     color: #ff0022;
 }
 
+a.speciallink:link {
+    color: #08a600;
+}
+
+a.speciallink:visited {
+    color: #08a600;
+}
+
+a.speciallink:hover {
+    color: #220022;
+}
+
 a:visited {
     color: #ff0022;
 }
@@ -40,4 +52,12 @@ a:hover {
     border-color: #dddddd;
     padding: 10px;
     width: 61%;
+}
+
+.interview {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #dddddd;
+    padding: 10px;
+    width: 90%;
 }
