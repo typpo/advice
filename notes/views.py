@@ -3,6 +3,7 @@ from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
 from django.contrib.auth.models import AnonymousUser
+from django import forms
 from notes.forms import InterviewForm
 from notes.models import Profile
 from notes.models import Company
@@ -132,11 +133,19 @@ def add(request):
     addednew = False
 
     if request.POST:
-        f = InterviewForm(request.POST)
+        custom_fields = [f for f in request.POST \
+            if f.startswith('id_answer') or f.startswith('id_question')]
+
+        attrs = dict((field, forms.CharField(max_length=100, required=False)) \
+            for field in custom_fields)
+        DynamicForm = type("DynamicForm", (InterviewForm,), attrs)
+
+        f = DynamicForm(request.POST)
         # TODO blank question, answer can be valid
         # blank description can be valid w/ question and answer
         if f.is_valid():
             d = f.cleaned_data
+            print d
             input_company = d['company']
             input_position = d['position']
 
@@ -173,21 +182,21 @@ def add(request):
             i.save()
 
             # questions
-            def saveQandA(interview, question, answer):
-                q= Question()
-                q.interview = interview;
-                q.question = question
-                q.answer = answer
-                q.save()
-            
             if input_question:
+                def saveQandA(interview, question, answer):
+                    addme = Question()
+                    addme.interview = interview;
+                    addme.question = question
+                    addme.answer = answer
+                    addme.save()
+
                 saveQandA(i, input_question, input_answer)
-                c = 1
+                c = 2
                 while 1:
                     q = 'id_question'+str(c)
                     a = 'id_answer'+str(c)
                     if q in d:
-                        saveQAndA(i, d[q], d.get(a, ''))
+                        saveQandA(i, d[q], d.get(a, ''))
                         c += 1
                     else:
                         break

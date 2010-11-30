@@ -30,12 +30,14 @@
             var d = $('#qAndA_base').clone(true);
             d.attr('class', 'qAndA');
 
-            var q = d.find('textarea:first');
-            var a = q.next();
+            var q = d.find('textarea:first').next();
+            var a = d.find('textarea:last');
 
             q.attr('id', 'id_question'+c);
+            q.attr('name', 'id_question'+c);
             q.height(origheight);
             a.attr('id', 'id_answer'+c);
+            a.attr('name', 'id_answer'+c);
             a.height(origheight);
 
             d.insertAfter($('.qAndA:last'));

@@ -1,5 +1,6 @@
 a:link {
-    color: #ff0022;
+    /*color: #ff0022;*/
+    color: #AB0A32;
 }
 
 a.speciallink:link {
@@ -15,7 +16,8 @@ a.speciallink:hover {
 }
 
 a:visited {
-    color: #ff0022;
+    /*color: #ff0022;*/
+    color: #AB0A32;
 }
 
 a:hover {
