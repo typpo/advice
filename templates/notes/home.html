@@ -1,0 +1,18 @@
+{%extends "base.html"%}
+
+{%block header%}Home{%endblock%}
+{%block content%}
+<p>
+This site is a repository for job search experiences and advice for Dartmouth students (specifically, Dartmouth CS students).
+</p>
+<p>
+Recently updated companies:
+<ul>
+{%for company in companies%}
+    <li><a href="/notes/c/{{company.id}}">{{company.name}}</a> - ({{company.positions.all.count}} positions, {{company.interview_set.all.count}} interviews) - updated {{company.updated}}</li>
+{%empty%}
+    None
+{%endfor%}
+</ul>
+</p>
+{%endblock content%}

@@ -24,14 +24,16 @@
                 <p>
                 <strong>Description:</strong><br>{{interview.description}}
                 </p>
-                {%for question in interview.question_set.all%}
-                    <p>
-                    <strong>Question</strong><br>{{question.question}}</p>
-                    <p><strong>Answer</strong><br>{{question.answer}}
-                    </p>
-                {%empty%}
-                    No questions available.
-                {%endfor%}
+                {%ifnotequal interview.question_set.all.count 0%}
+                    {%for question in interview.question_set.all%}
+                        <p>
+                        <strong>Question</strong><br>{{question.question}}</p>
+                        {%if question.answer%}
+                        <p><strong>Answer</strong><br>{{question.answer}}
+                        {%endif%}
+                        </p>
+                    {%endfor%}
+                {%endifnotequal%}
                 </div>
             {%endfor%}
         {%endfor%}

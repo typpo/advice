@@ -14,7 +14,15 @@ from notes.models import Question
 # Lists top N companies and positions, by things like quantity and 
 # recent activity
 def index(request):
-    raise Http404
+    return render_to_response('notes/home.html', \
+        {
+            'companies': Company.objects.all().order_by('-updated'),
+        })
+
+def search(request):
+    return render_to_response('notes/search.html', \
+        {
+        })
 
 # Lists by company and top N positions
 def company_index(request):
@@ -146,6 +154,7 @@ def add(request):
         if f.is_valid():
             d = f.cleaned_data
             print d
+
             input_company = d['company']
             input_position = d['position']
 
@@ -203,6 +212,7 @@ def add(request):
 
             addednew = True
         else:
+            print f.errors
             failed = True
 
     return render_to_response('notes/add.html', \

@@ -35,7 +35,7 @@ class Interview(models.Model):
 class Question(models.Model):
     interview = models.ForeignKey(Interview)
     question = models.CharField(max_length=2000)
-    answer = models.CharField(max_length=2000)
+    answer = models.CharField(max_length=2000, blank=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=True)
 
     def __unicode__(self):
