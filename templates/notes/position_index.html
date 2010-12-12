@@ -8,11 +8,11 @@ title
 {%ifnotequal order "title"%}</a>{%endifnotequal%}
 -
 {%ifnotequal order "companies"%}<a href="?order=companies">{%endifnotequal%}
-companies
+#companies
 {%ifnotequal order "companies"%}</a>{%endifnotequal%}
 -
 {%ifnotequal order "interviews"%}<a href="?order=interviews">{%endifnotequal%}
-interviews
+#interviews
 {%ifnotequal order "interviews"%}</a>{%endifnotequal%}
 -
 {%ifnotequal order "recent"%}<a href="?order=recent">{%endifnotequal%}
@@ -22,6 +22,8 @@ recent
 <ul>
 {%for position in positions%}
     <li><a href="/p/{{position.id}}">{{position.title}}</a> - ({{position.company_set.all.count}} companies, {{position.interview_set.all.count}} interviews)
+{%empty%}
+    None
 {%endfor%}
 </ul>
 {%endblock content%}

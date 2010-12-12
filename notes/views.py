@@ -139,6 +139,7 @@ def interviews(request):
 def add(request):
     failed = False
     addednew = False
+    formerror = None
 
     if request.POST:
         custom_fields = [f for f in request.POST \
@@ -212,7 +213,7 @@ def add(request):
 
             addednew = True
         else:
-            print f.errors
+            formerror = f.errors
             failed = True
 
     return render_to_response('notes/add.html', \
@@ -220,4 +221,5 @@ def add(request):
             'form': InterviewForm(),
             'addednew': addednew,
             'failed': failed,
+            'formerror': formerror,
         })

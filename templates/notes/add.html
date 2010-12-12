@@ -68,7 +68,8 @@ Add an interview experience
     <strong>Your submission was received and will be up shortly.  Thanks!</strong>
 {%else%}
     {%if failed%}
-        <strong>Something was wrong with your submission, try again.</strong>
+        <strong>Something was wrong with your submission:</strong><br>
+        {{formerror}}
     {%endif%}
 {%endif%}
 
