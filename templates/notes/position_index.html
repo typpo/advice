@@ -21,7 +21,7 @@ recent
 
 <ul>
 {%for position in positions%}
-    <li><a href="/p/{{position.id}}">{{position.title}}</a> - ({{position.company_set.all.count}} companies, {{position.interview_set.all.count}} interviews)
+    <li><a href="/notes/p/{{position.id}}">{{position.title}}</a> - ({{position.company_set.all.count}} companies, {{position.interview_set.all.count}} interviews)
 {%empty%}
     None
 {%endfor%}

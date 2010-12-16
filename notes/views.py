@@ -95,7 +95,7 @@ def company_by_name(request, company_name):
 
 # companies by position
 def position(request, position_id):
-    position = Position.objects.get(id=company_id)
+    position = Position.objects.get(id=position_id)
     return render_to_response('notes/position.html', \
         {
             'position': position,
@@ -137,6 +137,7 @@ def interviews(request):
 
 # Submit interview
 def add(request):
+    print request.POST
     failed = False
     addednew = False
     formerror = None
@@ -150,11 +151,9 @@ def add(request):
         DynamicForm = type("DynamicForm", (InterviewForm,), attrs)
 
         f = DynamicForm(request.POST)
-        # TODO blank question, answer can be valid
         # blank description can be valid w/ question and answer
         if f.is_valid():
             d = f.cleaned_data
-            print d
 
             input_company = d['company']
             input_position = d['position']
@@ -183,6 +182,9 @@ def add(request):
                 company.save()
                 company.positions.add(position)
                 company.save()
+
+            position.company_set.add(company)
+            position.save()
                 
             i = Interview()
             i.company = company

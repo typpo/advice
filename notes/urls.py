@@ -6,6 +6,8 @@ urlpatterns = patterns('notes.views',
     (r'^p/$', 'position_index'),
     (r'^c/(?P<company_id>\d+)/$', 'company'),
     (r'^c/(?P<company_name>.+)/$', 'company_by_name'),
+    (r'^p/(?P<position_id>\d+)/$', 'position'),
+    (r'^p/(?P<position_title>.+)/$', 'position_by_title'),
     (r'^i/$', 'interviews'),
     (r'^add/$', 'add'),
 )
