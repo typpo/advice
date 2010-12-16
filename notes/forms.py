@@ -9,12 +9,12 @@ class InterviewForm(forms.Form):
         widget=forms.TextInput(attrs={'size':50}))
     date = forms.DateField(label='Date of interview')
     description = forms.CharField(max_length=2000, \
-        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':80}))
+        widget=forms.widgets.Textarea(attrs={'rows':6,'cols':80}))
 
     question = forms.CharField(max_length=2000, \
-        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':80}))
+        widget=forms.widgets.Textarea(attrs={'rows':6,'cols':80}))
     answer = forms.CharField(max_length=2000, required=False, \
-        widget=forms.widgets.Textarea(attrs={'rows':10,'cols':80}))
+        widget=forms.widgets.Textarea(attrs={'rows':6,'cols':80}))
 
     def clean(self):
         for k in self.cleaned_data:
