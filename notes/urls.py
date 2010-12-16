@@ -9,5 +9,7 @@ urlpatterns = patterns('notes.views',
     (r'^p/(?P<position_id>\d+)/$', 'position'),
     (r'^p/(?P<position_title>.+)/$', 'position_by_title'),
     (r'^i/$', 'interviews'),
+    (r'^companytags/$', 'companytags'),
+    (r'^positiontags/$', 'positiontags'),
     (r'^add/$', 'add'),
 )

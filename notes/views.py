@@ -1,5 +1,6 @@
+import json
 from django.shortcuts import render_to_response
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
 from django.contrib.auth.models import AnonymousUser
@@ -186,6 +187,7 @@ def add(request):
             position.save()
                 
             i = Interview()
+            i.profile = None
             i.company = company
             i.position = position
             i.description = input_description
@@ -224,3 +226,21 @@ def add(request):
             'failed': failed,
             'formerror': formerror,
         })
+
+# Typeahead completion for entering a company name
+def companytags(request):
+    if 'term' in request.GET:
+        companies = Company.objects.filter(name__contains=request.GET['term'])
+        resp = json.dumps([company.name for company in companies])
+        return HttpResponse(resp)
+    else:
+        return HttpResponse('[]')
+
+# Typeahead completion for entering a position title
+def positiontags(request):
+    if 'term' in request.GET:
+        positions = Position.objects.filter(title__contains=request.GET['term'])
+        resp = json.dumps([position.title for position in positions])
+        return HttpResponse(resp)
+    else:
+        return HttpResponse('[]')

@@ -1,4 +1,5 @@
 {%extends "base.html"%}
+{%load notes_extras%}
 
 {%block header%}Home{%endblock%}
 {%block content%}
@@ -9,7 +10,7 @@ This site is a repository for job search experiences and advice for Dartmouth st
 Recently updated companies:
 <ul>
 {%for company in companies%}
-    <li><a href="/notes/c/{{company.id}}">{{company.name}}</a> - ({{company.positions.all.count}} positions, {{company.interview_set.all.count}} interviews) - updated {{company.updated}}</li>
+    <li><a href="/notes/c/{{company.id}}">{{company.name}}</a> - ({{company.positions.all.count}} positions, {{company.interview_set.all.count}} interviews) - updated {{company|format_updated}}</li>
 {%empty%}
     None
 {%endfor%}

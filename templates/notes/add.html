@@ -5,11 +5,28 @@
 {{form.media}}
 
 <link rel="stylesheet" href="/static/css/uniform.default.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="/static/css/jquery-ui-1.8.6.custom.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="/static/css/jquery-ui-1.8.7.custom.css" type="text/css" media="screen" charset="utf-8" />
 
 <script src="/static/js/jquery.uniform.min.js" type="text/javascript"></script>
-<script src="/static/js/jquery-ui-1.8.6.custom.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery-ui-1.8.7.custom.min.js" type="text/javascript"></script>
 <script src="/static/js/autoresize.jquery.min.js" type="text/javascript"></script>
+
+<style>
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        /* add padding to account for vertical scrollbar */
+        padding-right: 20px;
+    }
+    /* IE 6 doesn't support max-height
+     * we use height instead, but this forces the menu to always be this tall
+     */
+    * html .ui-autocomplete {
+        height: 100px;
+    }
+</style>
 
 <script type="text/javascript">
       $(function(){
@@ -17,7 +34,7 @@
         $('#id_date').datepicker({
             changeMonth: true,
             changeYear: true,
-            maxDate: 'c',
+            maxDate: '+0D',
             onChangeMonthYear: function(y, m, inst) {
                 $('#id_date').datepicker('setDate', m+'/1'+'/'+y);
             }
@@ -29,6 +46,9 @@
       $(document).ready(function() {
         origheight = $('#qAndA_base textarea:first').height();
 
+        $('#id_date').datepicker('setDate', 'c');
+
+        //dynamic fields
         $('#add_field').click(function() {
             var d = $('#qAndA_base').clone(true);
             d.attr('class', 'qAndA');
@@ -48,6 +68,7 @@
             return false;
         });
 
+        // autoresize
         $('textarea').autoResize({
             onResize : function() {
                 $(this).css({opacity:0.8});
@@ -59,15 +80,48 @@
             extraSpace : 40
         });
 
+        // autocompletes
+        var cacheC = {}, lastXhrC; 
+        $("#id_company").autocomplete({
+            minLength: 2,
+            source: function(request, response) {
+                var term = request.term;
+                if (term in cacheC) {
+                    response(cacheC[term]);
+                    return;
+                }
+                lastXhrC = $.getJSON('/notes/companytags/', request, function(data, status, xhr) {
+                    cacheC[term] = data;
+                    if (xhr === lastXhrC) {
+                        response(data);
+                    }
+                });
+            }
+        }); 
+        var cacheP = {}, lastXhrP; 
+        $("#id_position").autocomplete({
+            minLength: 2,
+            source: function(request, response) {
+                var term = request.term;
+                if (term in cacheP) {
+                    response(cacheP[term]);
+                    return;
+                }
+                lastXhrP = $.getJSON('/notes/positiontags/', request, function(data, status, xhr) {
+                    cacheP[term] = data;
+                    if (xhr === lastXhrP) {
+                        response(data);
+                    }
+                });
+            }
+        }); 
       });
 </script>
-
 {%endblock head%}
 
 {%block header%}
 Add an interview experience
 {%endblock header%}
-
 {%block content%}
 {%if addednew%}
     <strong>Your submission was received and will be up shortly.  Thanks!</strong>
@@ -77,13 +131,12 @@ Add an interview experience
         {{formerror}}
     {%endif%}
 {%endif%}
-
 <form id="submitform" action="/notes/add/" method="POST">
 <p><strong>Company</strong>: {{form.company}}</p>
 <p><strong>Position</strong>: {{form.position}}</p>
 <p><strong>Date of interview</strong>: {{form.date}} (feel free to round to nearest month)</p>
 <p><strong>Description of your experience</strong>:<br>
-(general expectations, things that would've been helpful to know, general ways to prepare)<br>{{form.description}}</p>
+(interviewer expectations, things that would've been helpful to know, ways to prepare, etc.)<br>{{form.description}}</p>
 
 <div class="indent">
 <div id="qAndA_base" class="qAndA">

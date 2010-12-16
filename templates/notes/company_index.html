@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{%load notes_extras%}
+
 {%block title%}company index{%endblock%}
 {%block header%}Companies{%endblock%}
 {%block content%}
@@ -21,7 +23,7 @@ recent
 
 <ul>
 {%for company in companies%}
-    <li><a href="/notes/c/{{company.id}}">{{company.name}}</a> - ({{company.positions.all.count}} positions, {{company.interview_set.all.count}} interviews) - updated {{company.updated}}</li>
+    <li><a href="/notes/c/{{company.id}}">{{company.name}}</a> - ({{company.positions.all.count}} positions, {{company.interview_set.all.count}} interviews) - updated {{company|format_updated}}</li>
 {%empty%}
     None
 {%endfor%}

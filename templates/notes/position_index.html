@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load notes_extras %}
 {%block title%}positions index{%endblock%}
 {%block header%}Positions{%endblock%}
 {%block content%}
@@ -21,7 +22,7 @@ recent
 
 <ul>
 {%for position in positions%}
-    <li><a href="/notes/p/{{position.id}}">{{position.title}}</a> - ({{position.company_set.all.count}} companies, {{position.interview_set.all.count}} interviews)
+    <li><a href="/notes/p/{{position.id}}">{{position.title}}</a> - ({{position.company_set.all.count}} companies, {{position.interview_set.all.count}} interviews) - updated {{position|format_updated}}
 {%empty%}
     None
 {%endfor%}

@@ -25,6 +25,7 @@ class Company(models.Model):
 class Interview(models.Model):
     company = models.ForeignKey(Company)
     position = models.ForeignKey(Position)
+    profile = models.ForeignKey(Profile, blank=True, null=True)
     description = models.CharField(max_length=2000)
     date = models.DateField()
     updated = models.DateTimeField(auto_now=True, auto_now_add=True)
