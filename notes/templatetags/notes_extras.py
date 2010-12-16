@@ -12,6 +12,8 @@ def is_textarea(val):
 def format_updated(obj):
     dateval = obj.updated
     now = datetime.now()
+    if now-timedelta(minutes=60) < dateval:
+        return '%s minutes ago' % ((now-dateval).seconds / 60)
     if now-timedelta(days=1) < dateval:
         return '%s hours ago' % ((now-dateval).seconds / 3600)
     elif now-timedelta(days=7) < dateval:

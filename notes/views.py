@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.http import Http404, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.decorators import login_required
 from django import forms
 from notes.forms import InterviewForm
 from notes.models import Profile
@@ -17,7 +17,7 @@ from notes.models import Question
 def index(request):
     return render_to_response('notes/home.html', \
         {
-            'companies': Company.objects.all().order_by('-updated'),
+            'companies': Company.objects.all().order_by('-updated')[:10],
         })
 
 def search(request):
@@ -226,6 +226,11 @@ def add(request):
             'failed': failed,
             'formerror': formerror,
         })
+
+# Edit interview
+@login_required
+def edit_interview(request):
+    return Http404
 
 # Typeahead completion for entering a company name
 def companytags(request):
