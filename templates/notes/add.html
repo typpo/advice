@@ -13,10 +13,11 @@
 
 <script type="text/javascript">
       $(function(){
-        $("input, textarea, select, button").uniform();
+        $('input, textarea, select, button').uniform();
         $('#id_date').datepicker({
             changeMonth: true,
-            changeYear: true
+            changeYear: true,
+            maxDate: '+1D'
         });
 
       });

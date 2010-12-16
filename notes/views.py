@@ -137,7 +137,6 @@ def interviews(request):
 
 # Submit interview
 def add(request):
-    print request.POST
     failed = False
     addednew = False
     formerror = None

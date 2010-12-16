@@ -26,12 +26,12 @@
                 </p>
                 {%ifnotequal interview.question_set.all.count 0%}
                     {%for question in interview.question_set.all%}
-                        <p>
+                        <div class="qAndA">
                         <strong>Question</strong><br>{{question.question}}</p>
                         {%if question.answer%}
                         <p><strong>Answer</strong><br>{{question.answer}}
                         {%endif%}
-                        </p>
+                        </div>
                     {%endfor%}
                 {%endifnotequal%}
                 </div>
