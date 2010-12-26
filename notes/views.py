@@ -1,11 +1,12 @@
 import json
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django import forms
 from notes.forms import InterviewForm
+from notes.forms import InterviewEditForm
 from notes.models import Profile
 from notes.models import Company
 from notes.models import Position
@@ -75,7 +76,7 @@ def position_index(request):
 
 # positions by company
 def company(request, company_id):
-    company = Company.objects.get(id=company_id)
+    company = Company.objects.get(pk=company_id)
     return render_to_response('notes/company.html', \
         {
             'company': company,
@@ -96,7 +97,7 @@ def company_by_name(request, company_name):
 
 # companies by position
 def position(request, position_id):
-    position = Position.objects.get(id=position_id)
+    position = Position.objects.get(pk=position_id)
     return render_to_response('notes/position.html', \
         {
             'position': position,
@@ -163,8 +164,6 @@ def add(request):
             input_question = d.get('question', None)
             input_answer = d.get('answer', '')
 
-            # TODO add profile?
-
             # find position
             try:
                 position = Position.objects.get(title=input_position)
@@ -187,7 +186,9 @@ def add(request):
             position.save()
                 
             i = Interview()
-            i.profile = None
+            # add profile if logged in
+            i.profile = None if request.user.is_anonymous() else request.user.get_profile()
+            # other interview details
             i.company = company
             i.position = position
             i.description = input_description
@@ -229,8 +230,28 @@ def add(request):
 
 # Edit interview
 @login_required
-def edit_interview(request):
-    return Http404
+def edit_interview(request, id):
+    formerror = None
+    success = False
+
+    if request.POST:
+        f = InterviewEditForm(request.POST)
+        if f.is_valid():
+            f.save()
+            success = True
+        else:
+            formerror = f.errors
+            success = False
+
+    interview = get_object_or_404(Interview, pk=id)
+    # TODO verify profiles match
+    return render_to_response('notes/edit.html', \
+        {
+            'form': InterviewEditForm(instance=interview),
+            'interview': interview,
+            'formerror': formerror,
+            'success': success,
+        })
 
 # Typeahead completion for entering a company name
 def companytags(request):

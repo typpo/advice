@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{%block title%}edit{%endblock%}
+
+{%block header%}Edit{%endblock%}
+
+{%block content%}
+You're editing interview id #{{interview.id}}<br>
+
+Click to DELETE this interview. ((TODO))<br>
+
+<form id="editform" action="/notes/edit/" method="POST">
+{{form.as_p}}
+<input id="submit" type="submit" value="Done"/>
+</form>
+{%endblock content%}

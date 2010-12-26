@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.flatpages.models import FlatPage
 from django.forms.models import ModelForm
+from notes.models import Interview
 
 class InterviewForm(forms.Form):
     company = forms.CharField(max_length=50, \
@@ -33,3 +34,7 @@ class InterviewForm(forms.Form):
 
     class Meta:
         fields = ('company', 'position', 'date', 'description', 'question', 'answer')
+
+class InterviewEditForm(ModelForm):
+    class Meta:
+        model = Interview

@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
 
+    def __unicode__(self):
+        return self.user.username
+
 class Position(models.Model):
     title = models.CharField(max_length=50, unique=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=True)
