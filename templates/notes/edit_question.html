@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{%block title%}edit{%endblock%}
+
+{%block header%}Edit question{%endblock%}
+
+{%block content%}
+{%if errors%}
+<strong>{{errors}}</strong>
+{%endif%}
+{%if success%}
+<strong>Changes saved successfully</strong>
+{%endif%}
+<form action="" method="post">
+{{form.as_p}}
+<input type="submit" value="Save">
+</form>
+{%endblock content%}

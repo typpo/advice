@@ -22,4 +22,8 @@ def format_updated(obj):
         return '%s weeks ago' % ((now-dateval).days / 7)
     else:
         return dateval.strftime('%m/%d/%y')
-        
+
+@register.filter(name='interviews_per_company_position')
+def interviews_per_company_position(interview_set, company):
+    # we need to filter by company
+    return len(interview_set.filter(company=company))

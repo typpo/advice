@@ -1,12 +1,13 @@
 import json
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django import forms
+from django.forms.formsets import formset_factory
 from notes.forms import InterviewForm
 from notes.forms import InterviewEditForm
+from notes.forms import QuestionEditForm
 from notes.models import Profile
 from notes.models import Company
 from notes.models import Position
@@ -231,11 +232,52 @@ def add(request):
 # Edit interview
 @login_required
 def edit_interview(request, id):
+    interview = get_object_or_404(Interview, pk=id)
+    if request.user.get_profile() != interview.profile:
+        # no good
+        return HttpResponse("Not your interview - maybe you need to login or change accounts.")
+
     formerror = None
     success = False
 
     if request.POST:
-        f = InterviewEditForm(request.POST)
+        f = InterviewEditForm(request.POST, instance=interview)
+        if f.is_valid():
+            if 'delete' in f.cleaned_data:
+                f.delete()
+                return HttpResponseRedirect('/')
+            else:
+                f.save()
+            success = True
+        else:
+            formerror = f.errors
+            success = False
+
+    return render_to_response('notes/edit.html', \
+        {
+            'form': InterviewEditForm(instance=interview),
+            'interview': interview,
+            'formerror': formerror,
+            'success': success,
+        })
+
+# Edit question
+@login_required
+def edit_question(request, id):
+    question = get_object_or_404(Question, pk=id)
+    if request.user.get_profile() != question.interview.profile:
+        return HttpResponse("Not your question- maybe you need to login or change accounts.")
+
+    question = get_object_or_404(Question, pk=id)
+    if request.user.get_profile() != question.interview.profile:
+        # no good
+        return HttpResponse("Not your interview - maybe you need to login or change accounts.")
+
+    formerror = None
+    success = False
+
+    if request.POST:
+        f = QuestionEditForm(request.POST, instance=question)
         if f.is_valid():
             f.save()
             success = True
@@ -243,12 +285,10 @@ def edit_interview(request, id):
             formerror = f.errors
             success = False
 
-    interview = get_object_or_404(Interview, pk=id)
-    # TODO verify profiles match
-    return render_to_response('notes/edit.html', \
+    return render_to_response('notes/edit_question.html', \
         {
-            'form': InterviewEditForm(instance=interview),
-            'interview': interview,
+            'form': QuestionEditForm(instance=question),
+            'question': question,
             'formerror': formerror,
             'success': success,
         })

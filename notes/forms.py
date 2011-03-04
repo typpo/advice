@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.flatpages.models import FlatPage
-from django.forms.models import ModelForm
+from django.forms import Textarea
 from notes.models import Interview
+from notes.models import Question
 
 class InterviewForm(forms.Form):
     company = forms.CharField(max_length=50, \
@@ -35,6 +36,20 @@ class InterviewForm(forms.Form):
     class Meta:
         fields = ('company', 'position', 'date', 'description', 'question', 'answer')
 
-class InterviewEditForm(ModelForm):
+class InterviewEditForm(forms.ModelForm):
+    description = forms.CharField(max_length=2000, \
+        widget=forms.widgets.Textarea(attrs={'rows':6,'cols':80}))
+
     class Meta:
         model = Interview
+        fields = ('description',)
+
+class QuestionEditForm(forms.ModelForm):
+    question = forms.CharField(max_length=2000, \
+        widget=forms.widgets.Textarea(attrs={'rows':6,'cols':80}))
+    answer = forms.CharField(max_length=2000, required=False, \
+        widget=forms.widgets.Textarea(attrs={'rows':6,'cols':80}))
+
+    class Meta:
+        model = Question
+        fields = ('question', 'answer',)

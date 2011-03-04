@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load notes_extras %}
+
 {%block title%}{{company.name}}{%endblock%}
 {%block header%}{{company.name}}{%endblock%}
 {%block content%}
@@ -8,7 +10,7 @@
 <ul>
 {%for position in company.positions.all%}
     <!-- TODO filter interview_set by company -->
-    <li><a href="/notes/i/?company={{company.id}}&position={{position.id}}">{{position.title}}</a> - ({{position.interview_set.all.count}} interviews)
+    <li><a href="/notes/i/?company={{company.id}}&position={{position.id}}">{{position.title}}</a> - ({{ position.interview_set|interviews_per_company_position:company }} interviews)
 {%endfor%}
 </ul>
 </p>
