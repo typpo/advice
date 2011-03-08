@@ -243,11 +243,7 @@ def edit_interview(request, id):
     if request.POST:
         f = InterviewEditForm(request.POST, instance=interview)
         if f.is_valid():
-            if 'delete' in f.cleaned_data:
-                f.delete()
-                return HttpResponseRedirect('/')
-            else:
-                f.save()
+            f.save()
             success = True
         else:
             formerror = f.errors
