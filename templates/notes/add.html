@@ -126,6 +126,10 @@ Add an interview experience
         {{formerror}}
     {%endif%}
 {%endif%}
+
+{%if not loggedin%}
+<a href="/login">Login</a> so you can edit this in the future.
+{%endif%}
 <form id="submitform" action="/notes/add/" method="POST">
 <p><strong>Company</strong>: {{form.company}}</p>
 <p><strong>Position</strong>: {{form.position}}</p>

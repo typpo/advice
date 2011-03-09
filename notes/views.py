@@ -136,6 +136,8 @@ def interviews(request):
     return render_to_response('notes/interviews.html', \
         {
             'interviews': interviews,
+            'loggedin': not request.user.is_anonymous(),
+            'profile': None if request.user.is_anonymous() else request.user.get_profile(),
         })
 
 # Submit interview
@@ -227,6 +229,7 @@ def add(request):
             'addednew': addednew,
             'failed': failed,
             'formerror': formerror,
+            'loggedin': not request.user.is_anonymous(),
         })
 
 # Edit interview

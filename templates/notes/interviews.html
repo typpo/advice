@@ -5,7 +5,7 @@
 
 {%ifequal interiews.count 0%}
     No such interviews exist.
-{%endifequal%}
+{%endifequal%} 
 
 {%regroup interviews by company as company_list%}
 
@@ -34,12 +34,20 @@
                         </div>
                     {%endfor%}
                 {%endifnotequal%}
-                <!-- TODO add current profile check -->
-                <a href="/notes/edit/{{interview.id}}">edit</a>
+                {%if loggedin%}
+                    {%ifequal profile interview.profile%}
+                        <a href="/notes/edit/{{interview.id}}">edit</a>
+                    {%endifequal%}
+                {%endif%}
                 </div>
             {%endfor%}
         {%endfor%}
         </div>
 {%endfor%}
 
+{%if not loggedin%}
+<p>
+Login to edit <a href="/login">here</a>.
+</p>
+{%endif%}
 {%endblock content%}
