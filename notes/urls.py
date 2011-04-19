@@ -14,4 +14,7 @@ urlpatterns = patterns('notes.views',
     (r'^companytags/$', 'companytags'),
     (r'^positiontags/$', 'positiontags'),
     (r'^add/$', 'add'),
+
+    ##### 
+
 )
