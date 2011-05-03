@@ -4,12 +4,12 @@
 
 {{form.media}}
 
-<link rel="stylesheet" href="/static/css/uniform.default.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="/static/css/jquery-ui-1.8.7.custom.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="/notes/static/css/uniform.default.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="/notes/static/css/jquery-ui-1.8.7.custom.css" type="text/css" media="screen" charset="utf-8" />
 
-<script src="/static/js/jquery.uniform.min.js" type="text/javascript"></script>
-<script src="/static/js/jquery-ui-1.8.7.custom.min.js" type="text/javascript"></script>
-<script src="/static/js/autoresize.jquery.min.js" type="text/javascript"></script>
+<script src="/notes/static/js/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="/notes/static/js/jquery-ui-1.8.7.custom.min.js" type="text/javascript"></script>
+<script src="/notes/static/js/autoresize.jquery.min.js" type="text/javascript"></script>
 
 <style>
     .ui-autocomplete {
@@ -128,7 +128,7 @@ Add an interview experience
 {%endif%}
 
 {%if not loggedin%}
-<a href="/login">Login</a> so you can edit this in the future.
+<a href="/notes/login">Login</a> so you can edit this in the future.
 {%endif%}
 <form id="submitform" action="/notes/add/" method="POST">
 <p><strong>Company</strong>: {{form.company}}</p>
