@@ -30,7 +30,7 @@ class Interview(models.Model):
     position = models.ForeignKey(Position)
     profile = models.ForeignKey(Profile, blank=True, null=True)
     description = models.CharField(max_length=2000)
-    date = models.DateField()
+    date = models.IntegerField()
     updated = models.DateTimeField(auto_now=True, auto_now_add=True)
 
     def __unicode__(self):

@@ -26,6 +26,7 @@
 <script type="text/javascript">
       $(function(){
         $('input, textarea, select, button').uniform();
+      /*
         $('#id_date').datepicker({
             changeMonth: true,
             changeYear: true,
@@ -34,7 +35,11 @@
                 $('#id_date').datepicker('setDate', m+'/1'+'/'+y);
             }
         });
+      */
+
+        $('#id_date').val('{% now "Y" %}');
       });
+
 
       var c = 2;
       var origheight;
@@ -133,7 +138,7 @@ Add an interview experience
 <form id="submitform" action="/notes/add/" method="POST">
 <p><strong>Company</strong>: {{form.company}}</p>
 <p><strong>Position</strong>: {{form.position}}</p>
-<p><strong>Date of interview</strong>: {{form.date}} (feel free to round to nearest month)</p>
+<p><strong>Year of interview</strong>: {{form.date}} </p>
 <p><strong>Description of your experience</strong>:<br>
 (interviewer expectations, things that would've been helpful to know, ways to prepare, etc.)<br>{{form.description}}</p>
 

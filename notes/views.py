@@ -1,10 +1,18 @@
 import json
+
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404, HttpResponse, HttpResponseRedirect
+
 from django.core.exceptions import ObjectDoesNotExist
+
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
+from django.template import RequestContext
+
 from notes.forms import InterviewForm
 from notes.forms import InterviewEditForm
 from notes.forms import QuestionEditForm
@@ -20,12 +28,12 @@ def index(request):
     return render_to_response('notes/home.html', \
         {
             'companies': Company.objects.all().order_by('-updated')[:10],
-        })
+        }, context_instance=RequestContext(request))
 
 def search(request):
     return render_to_response('notes/search.html', \
         {
-        })
+        }, context_instance=RequestContext(request))
 
 # Lists by company and top N positions
 def company_index(request):
@@ -49,7 +57,7 @@ def company_index(request):
         {
             'order': order,
             'companies': companies,
-        })
+        }, context_instance=RequestContext(request))
 
 # Lists by position and top N companies
 def position_index(request):
@@ -73,7 +81,7 @@ def position_index(request):
         {
             'order': order,
             'positions': positions,
-        })
+        }, context_instance=RequestContext(request))
 
 # positions by company
 def company(request, company_id):
@@ -81,7 +89,7 @@ def company(request, company_id):
     return render_to_response('notes/company.html', \
         {
             'company': company,
-        })
+        }, context_instance=RequestContext(request))
 
 def company_by_name(request, company_name):
     try:
@@ -102,7 +110,7 @@ def position(request, position_id):
     return render_to_response('notes/position.html', \
         {
             'position': position,
-        })
+        }, context_instance=RequestContext(request))
 
 def position_by_title(request, position_title):
     try:
@@ -137,8 +145,9 @@ def interviews(request):
         {
             'interviews': interviews,
             'loggedin': not request.user.is_anonymous(),
+            # TODO logged in users get error here if there is no profile for them (ie. admin).
             'profile': None if request.user.is_anonymous() else request.user.get_profile(),
-        })
+        }, context_instance=RequestContext(request))
 
 # Submit interview
 def add(request):
@@ -230,7 +239,7 @@ def add(request):
             'failed': failed,
             'formerror': formerror,
             'loggedin': not request.user.is_anonymous(),
-        })
+        }, context_instance=RequestContext(request))
 
 # Edit interview
 @login_required
@@ -258,7 +267,7 @@ def edit_interview(request, id):
             'interview': interview,
             'formerror': formerror,
             'success': success,
-        })
+        }, context_instance=RequestContext(request))
 
 # Edit question
 @login_required
@@ -290,7 +299,7 @@ def edit_question(request, id):
             'question': question,
             'formerror': formerror,
             'success': success,
-        })
+        }, context_instance=RequestContext(request))
 
 # Typeahead completion for entering a company name
 def companytags(request):
@@ -309,3 +318,18 @@ def positiontags(request):
         return HttpResponse(resp)
     else:
         return HttpResponse('[]')
+
+
+# User sign up
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            return HttpResponseRedirect("/notes/")
+    else:
+        form = UserCreationForm()
+
+    return render_to_response("registration/signup.html", {
+        'form': form,
+    }, context_instance=RequestContext(request))

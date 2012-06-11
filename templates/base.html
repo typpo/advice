@@ -10,7 +10,7 @@
 
 <body>
     <div id="header" class="header">
-        <a href="/notes/">Home</a> - <a href="/notes/c/">Companies</a> - <a href="/notes/p/">Positions</a> - <!--<a href="/notes/i/">Search</a> - --><a href="/notes/add/"><strong>Add</strong></a>
+        <a href="/notes/">Home</a> - <a href="/notes/c/">Companies</a> - <a href="/notes/p/">Positions</a> - <!--<a href="/notes/i/">Search</a> - --><a href="/notes/add/"><strong>Add</strong></a> - {% if user.is_authenticated %} <a href="/notes/logout">Logout</a> ({{user.username}}) {%else%} <a href="/notes/login">Login</a> | <a href="/notes/register">Register</a> {%endif%}
     </div>
     <div class="mainoutline">
     <div id="description">

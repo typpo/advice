@@ -15,6 +15,8 @@ urlpatterns = patterns('notes.views',
     (r'^positiontags/$', 'positiontags'),
     (r'^add/$', 'add'),
 
+    (r'^signup/$', 'signup'),
+
     ##### 
 
 )
