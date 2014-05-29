@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('ian', 'typppo@gmail.com'),
+    ('ian', 'ianw_advice@ianww.com'),
 )
 
 # Link Profile model with User auth
